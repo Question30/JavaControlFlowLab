@@ -100,75 +100,61 @@ public class Main {
         System.out.println("What is your yearly income?");
         int income = scanner2.nextInt();
 
-        if(status.equals("single")){
-            if(income >= 0 && income <= 8350){
-                System.out.println("Your tax rate is 10%");
-            }else if(income >= 8351 && income <= 33950){
-                System.out.println("Your tax rate is 15%");
-            }else if(income >= 33951 && income <= 82250){
-                System.out.println("Your tax rate is 25%");
-            }else if (income >= 82251 && income <= 171550){
-                System.out.println("Your tax rate is 28%");
-            }else if(income >= 171551 && income <= 372950){
-                System.out.println("Your tax rate is 33%");
-            }else if(income > 372951){
-                System.out.println("Your tax rate is 35%");
-            }else{
-                System.out.println("Out of range");
-            }
-        }else if(status.equals("jointly")){
-            if(income >= 0 && income <= 16700){
-                System.out.println("Your tax rate is 10%");
-            }else if(income >= 16701 && income <= 67900){
-                System.out.println("Your tax rate is 15%");
-            }else if(income >= 67901 && income <= 137050){
-                System.out.println("Your tax rate is 25%");
-            }else if (income >= 137051 && income <= 208850){
-                System.out.println("Your tax rate is 28%");
-            }else if(income >= 208851 && income <= 372950){
-                System.out.println("Your tax rate is 33%");
-            }else if(income > 372951){
-                System.out.println("Your tax rate is 35%");
-            }else{
-                System.out.println("Out of range");
-            }
-        } else if (status.equals("separate")) {
-            if(income >= 0 && income <= 8350){
-                System.out.println("Your tax rate is 10%");
-            }else if(income >= 8351 && income <= 33950){
-                System.out.println("Your tax rate is 15%");
-            }else if(income >= 33951 && income <= 68525){
-                System.out.println("Your tax rate is 25%");
-            }else if (income >= 68526 && income <= 104425){
-                System.out.println("Your tax rate is 28%");
-            }else if(income >= 104426 && income <= 186475){
-                System.out.println("Your tax rate is 33%");
-            }else if(income > 186475){
-                System.out.println("Your tax rate is 35%");
-            }else{
-                System.out.println("Out of range");
-            }
-        } else if (status.equals("head")) {
-            if(income >= 0 && income <= 11950){
-                System.out.println("Your tax rate is 10%");
-            }else if(income >= 11951 && income <= 45500){
-                System.out.println("Your tax rate is 15%");
-            }else if(income >= 45501 && income <= 117450){
-                System.out.println("Your tax rate is 25%");
-            }else if (income >= 117451 && income <= 190200){
-                System.out.println("Your tax rate is 28%");
-            }else if(income >= 190201 && income <= 372950){
-                System.out.println("Your tax rate is 33%");
-            }else if(income > 372951){
-                System.out.println("Your tax rate is 35%");
-            }else{
-                System.out.println("Out of range");
-            }
+        System.out.println(printTaxRate(status, income));
+    }
+
+    public static double printTaxRate(String status, int income){
+
+        double result =0;
+
+        int[] arr = getStatusArr(status);
+        if(income >= 0 && income <= arr[0]){
+            result = income * .10;
+        }else if(income > arr[0] && income <= arr[1]){
+            result = income * .15;
+        }else if(income > arr[1] && income <= arr[2]){
+            result = income * .25;
+        }else if (income > arr[2] && income <= arr[3]){
+            result = income * .28;
+        }else if(income > arr[3] && income <= arr[4]){
+            result = income * .33;
+        }else if(income > arr[4]){
+            result = income * .35;
         }else{
-            System.out.println("Not valid filling status");
+            System.out.println("Out of range");
+            result = 0;
         }
 
+        return result;
     }
 
 
+    public static int[] getStatusArr(String status){
+        int[] arr;
+
+        int[] singleArr = {8350, 82250, 171550, 372950};
+        int[] jointlyArr = {16700, 67900, 137050, 208850, 372950};
+        int[] separateArr = {8350, 33950, 68525, 104425, 186475};
+        int[] headArr = {11950, 45500, 117450, 190200, 372950};
+
+        switch (status){
+            case "single":
+                arr = singleArr;
+                break;
+            case "jointly":
+                arr = jointlyArr;
+                break;
+            case "separate":
+                arr=separateArr;
+                break;
+            case "head":
+                arr=headArr;
+                break;
+            default:
+                arr = null;
+                break;
+        }
+
+        return arr;
+    }
 }
